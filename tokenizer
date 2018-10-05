@@ -1,22 +1,28 @@
+
 """This module is used for tokenizing strings.
 The string must be divided into alphabetic characters.""" 
 import re
 
-
+    
 class Tokenizer(object):
+    """
+    this class is using method tokenize to tokenize a string
+    """
+    
     def tokenize(self, text):
-        tokens = []      
-        s = re.sub(r'[\W\d_]', ' ', text)#replacing non-alphabetic characters except hyphen with spaces
-        pattern = re.compile("[^\W]*[^\W]")#searching for compound words as well
-        for match in re.finditer(pattern, s): #here our text is divided into words from space to space 
-            begin = match.start()
-            m = (match.group(), begin)
-            for token in m:
-                tokens.append(token)
+        """
+        this method divides a string into tokens consisting of alphabetic symbols
+        """
+        tokens = []
+        s = re.sub(r'[\W\d_]', ' ', text)#replacing non-alphabetic characters with spaces
+        pattern = re.compile("[^\W]+")#searching for alphabetic sequences only
+        for match in re.finditer(pattern, s):  #searching for pattern in a string
+            for token in match.group(), str(match.start()): #defining the index as well
+                tokens.append(token) #adding tokens to the list
         return tokens
-
 
 text = "доброе утро44 !!! - ++ 6&13 **(   спокойной темно-синий  441 ночи привет. Стол - это предмет мебели"
 words = Tokenizer().tokenize(text)
-print(words)
-            
+for i in range(0, len(words), 2):
+    print(*words[i:i + 2])
+
