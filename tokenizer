@@ -43,8 +43,29 @@ class Tokenizer(object):
                 tokens.append(token)
         return tokens
 
-text = "доброе утро44 !!! - ++ 6&13 **(   спокойной темно-синий  441 ночи привет. Стол - это предмет мебели"
-words = Tokenizer().tokenize(text)
-for token in words:
-    print(token.text, token.position)
+    def gen_tokenize(self, text):
+        """
+        this method divides a string into tokens consisting of alphabetic symbols
+        the method returns generator
+        """
+        
+            if not type(text) is str:
+                raise ValueError
+            for match in self.pattern.finditer(text):  #searching for pattern in a string
+                token = Token(match.start(), match.group())#extracting tokens with their positions
+                yield token
+
+    
+
+if __name__ == '__main__':
+    text = "доброе утро44 !!! - ++ 6&13 **(   спокойной темно-синий  441 ночи привет. Стол - это предмет мебели"
+    words = Tokenizer().tokenize(text)
+    for token in words:
+        print(token.text, token.position)
+    gen_words = Tokenizer().gen_tokenize(text)
+    for token in gen_words:
+        print(token.text, token.position)
+
+
+
 
