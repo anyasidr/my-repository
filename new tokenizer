@@ -1,0 +1,50 @@
+import re
+
+
+class Token(object):
+    
+    def __init__(self, position, text):
+        
+        self.position = position
+        self.text = text
+
+    
+class Tokenizer(object):
+    
+    def __init__(self):
+         
+        self.alph_pattern = re.compile("[^\W\d]+")
+        self.num_pattern = re.compile("[\d]+")
+        """self.sym_pattern = re.compile("[^\w\s\.\,\:\;\?\!\...]+")"""
+        self.punct_pattern = re.compile("[\.\,\:\;\?\!\...]+")
+        self.space_pattern = re.compile("[\s]")
+        
+    def gen_tokenize(self, text):
+        
+            if not type(text) is str:
+                raise ValueError
+            for match in self.alph_pattern.finditer(text):  
+                token = Token(match.start(), match.group())
+                yield token
+            for match in self.num_pattern.finditer(text):
+                token = Token(match.start(), match.group())
+                yield token
+            """for match in self.sym_pattern.finditer(text):
+                token = Token(match.start(), match.group())
+                yield token"""
+            for match in self.punct_pattern.finditer(text):
+                token = Token(match.start(), match.group())
+                yield token
+            for match in self.space_pattern.finditer(text):
+                token = Token(match.start(), match.group())
+                yield token
+        
+
+
+
+if __name__ == '__main__':
+    text = "доброе утро44 !!! - ++ 6&13 **( ...   спокойной темно-синий  441 ночи привет. Стол - это предмет мебели"
+words = Tokenizer().gen_tokenize(text)
+for token in words:
+    print(token.text, token.position)
+    
