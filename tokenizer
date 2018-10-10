@@ -40,14 +40,10 @@ class Tokenizer(object):
         if not type(text) is str:
             raise ValueError
         tokens = []
+        # searching for pattern in a string
         for match in self.pattern.finditer(text):
-        """
-        searching for pattern in a string
-        """
+         # extracting tokens with their positions
             token = Token(match.start(), match.group())
-            """
-            extracting tokens with their positions
-            """
             tokens.append(token)
         return tokens
     
@@ -58,14 +54,10 @@ class Tokenizer(object):
         """
         if not type(text) is str:
             raise ValueError
+        # searching for pattern in a string
         for match in self.pattern.finditer(text):
-        """
-        searching for pattern in a string
-        """
+            # extracting tokens with their positions
             token = Token(match.start(), match.group())
-            """
-            extracting tokens with their positions
-            """
             yield token
 
 
@@ -77,6 +69,8 @@ if __name__ == '__main__':
     gen_words = Tokenizer().gen_tokenize(text)
     for token in gen_words:
         print(token.text, token.position)
+    
+
 
 
 
