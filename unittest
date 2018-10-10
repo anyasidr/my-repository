@@ -85,8 +85,7 @@ class Test(unittest.TestCase):
         self.assertEqual(result[4].position, 30)
 
     def gen_test_result_characters_begin_end(self):
-        result = self.Tokenizer.gen_
-        tokenize('720@!we ^&* are testing- *&$^ this thing*%@3')
+        result = self.Tokenizer.gen_tokenize('720@!we ^&* are testing- *&$^ this thing*%@3')
         self.assertEqual(len(result), 5)
         self.assertEqual(result[0].text, 'we')
         self.assertEqual(result[0].position, 5)
