@@ -28,29 +28,34 @@ class Tokenizer(object):
         """
         this method makes groups of letters
         """
+        # searching for alphabetic sequences only
         self.pattern = re.compile("[^\W\d]+")
-        """
-        searching for alphabetic sequences only
-        """
+        
+        
+        
         
     def tokenize(self, text):
         """
         this method divides a string into tokens consisting of alphabetic symbols
+        @param text: string that'll be divided into tokens
+        @return: list of tokens
         """
         if not type(text) is str:
             raise ValueError
         tokens = []
         # searching for pattern in a string
         for match in self.pattern.finditer(text):
-         # extracting tokens with their positions
+            # extracting tokens with their positions
             token = Token(match.start(), match.group())
             tokens.append(token)
         return tokens
     
     def gen_tokenize(self, text):
         """
-        this method divides a string into tokens consisting of alphabetic symbols
-        the method returns generator
+        this method divides a string into tokens
+        consisting of alphabetic symbols
+        @param text: string that'll be divided into tokens
+        @return: generator
         """
         if not type(text) is str:
             raise ValueError
@@ -69,6 +74,7 @@ if __name__ == '__main__':
     gen_words = Tokenizer().gen_tokenize(text)
     for token in gen_words:
         print(token.text, token.position)
+
     
 
 
