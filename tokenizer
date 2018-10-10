@@ -1,4 +1,3 @@
-
 """This module is used for tokenizing strings.
 The string must be divided into alphabetic characters.""" 
 
@@ -29,7 +28,10 @@ class Tokenizer(object):
         """
         this method makes groups of letters
         """
-        self.pattern = re.compile("[^\W\d]+")#searching for alphabetic sequences only
+        self.pattern = re.compile("[^\W\d]+")
+        """
+        searching for alphabetic sequences only
+        """
         
     def tokenize(self, text):
         """
@@ -38,24 +40,34 @@ class Tokenizer(object):
         if not type(text) is str:
             raise ValueError
         tokens = []
-        for match in self.pattern.finditer(text):  #searching for pattern in a string
-                token = Token(match.start(), match.group())#extracting tokens with their positions
-                tokens.append(token)
+        for match in self.pattern.finditer(text):
+        """
+        searching for pattern in a string
+        """
+            token = Token(match.start(), match.group())
+            """
+            extracting tokens with their positions
+            """
+            tokens.append(token)
         return tokens
-
+    
     def gen_tokenize(self, text):
         """
         this method divides a string into tokens consisting of alphabetic symbols
         the method returns generator
         """
-        
-            if not type(text) is str:
-                raise ValueError
-            for match in self.pattern.finditer(text):  #searching for pattern in a string
-                token = Token(match.start(), match.group())#extracting tokens with their positions
-                yield token
+        if not type(text) is str:
+            raise ValueError
+        for match in self.pattern.finditer(text):
+        """
+        searching for pattern in a string
+        """
+            token = Token(match.start(), match.group())
+            """
+            extracting tokens with their positions
+            """
+            yield token
 
-    
 
 if __name__ == '__main__':
     text = "доброе утро44 !!! - ++ 6&13 **(   спокойной темно-синий  441 ночи привет. Стол - это предмет мебели"
@@ -65,7 +77,6 @@ if __name__ == '__main__':
     gen_words = Tokenizer().gen_tokenize(text)
     for token in gen_words:
         print(token.text, token.position)
-
 
 
 
