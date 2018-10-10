@@ -30,10 +30,8 @@ class Tokenizer(object):
         """
         # searching for alphabetic sequences only
         self.pattern = re.compile("[^\W\d]+")
-        
-        
-        
-        
+         
+            
     def tokenize(self, text):
         """
         this method divides a string into tokens consisting of alphabetic symbols
