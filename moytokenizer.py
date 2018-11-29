@@ -116,7 +116,6 @@ class Tokenizer(object):
             return
         
         pos = 0
-        index = 0
         for index, character in enumerate(text):
             # definiton of the current type
             ctype = self.Type(character)
