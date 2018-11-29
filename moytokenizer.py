@@ -37,7 +37,6 @@ class TokenwithType(Token):
         self.typ = typ
         
 
-
 class Tokenizer(object):
     """
     this class uses method tokenize to tokenize a string
