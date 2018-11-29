@@ -112,7 +112,7 @@ class Tokenizer(object):
         if not isinstance(text, str):
             raise ValueError
         
-        if not text:
+        if text == "":
             return
         
         pos = 0
