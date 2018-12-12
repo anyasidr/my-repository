@@ -115,13 +115,11 @@ class Tokenizer(object):
         for index, character in enumerate(text):
             # definiton of the current type
             ctype = self._type(character)
-            # definition of the previous type
-            ptype = self._type(text[index-1])
             # check if the type of the current character is
             # different from the type of the previous character
-            if ctype != ptype:
+            if index>0 and ctype != self._type(text[index-1]):
                 word = text[pos:index]
-                typ = ptype
+                typ = self._type(text[index-1])
                 token = TokenwithType(position, word, typ)
                 yield token
                 position = index
