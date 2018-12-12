@@ -87,13 +87,10 @@ class Tokenizer(object):
         """
         if c.isalpha():
             typ='a'
-        
         elif c.isdigit():
             typ= 'd'
-        
         elif c.isspace():
             typ='s'
-        
         elif unicodedata.category(c)[0] == 'P':
             typ='p'
         else:
