@@ -105,8 +105,11 @@ class Tokenizer(object):
         @return: generator
         """
         
-        if not isinstance(text, str) or len(text) == 0:
+        if not isinstance(text, str):
             raise ValueError
+            
+        if text = "":
+            return
         
         position = 0
         for index, character in enumerate(text):
