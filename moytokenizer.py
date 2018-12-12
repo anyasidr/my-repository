@@ -108,13 +108,10 @@ class Tokenizer(object):
         @return: generator
         """
         
-        if not isinstance(text, str):
+        if (not isinstance(text, str) or len(text) == 0):
             raise ValueError
         
-        if text == "":
-            return
-        
-        pos = 0
+        position = 0
         for index, character in enumerate(text):
             # definiton of the current type
             ctype = self.Type(character)
@@ -122,17 +119,15 @@ class Tokenizer(object):
             ptype = self.Type(text[index-1])
             # check if the type of the current character is
             # different from the type of the previous character
-            if ctype != ptype and index>0 :
+            if ctype != ptype:
                 word = text[pos:index]
                 typ = ptype
-                token = TokenwithType(pos, word, typ)
+                token = TokenwithType(position, word, typ)
                 yield token
-                
-                pos = index
-            word = text[pos:index+1]
+                position = index
+            word = text[position:index+1]
             typ = ctype
-            token = TokenwithType(pos, word, typ)
-            
+            token = TokenwithType(position, word, typ)
         yield token
         
 
