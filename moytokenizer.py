@@ -81,18 +81,18 @@ class Tokenizer(object):
             yield token
 
     @staticmethod
-    def Type(c):
+    def _type(c):
         """
         this method defines a type of each character
         """
         if c.isalpha():
-            typ='a'
+            typ = 'a'
         elif c.isdigit():
-            typ= 'd'
+            typ = 'd'
         elif c.isspace():
-            typ='s'
+            typ = 's'
         elif unicodedata.category(c)[0] == 'P':
-            typ='p'
+            typ = 'p'
         else:
             typ = 'o'
         return typ
