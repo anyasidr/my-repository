@@ -83,7 +83,7 @@ class Tokenizer(object):
     @staticmethod
     def Type(c):
         """
-        this method defines a type of the character
+        this method defines a type of each character
         """
         if c.isalpha():
             typ='a'
@@ -122,15 +122,15 @@ class Tokenizer(object):
             ptype = self.Type(text[index-1])
             # check if the type of the current character is
             # different from the type of the previous character
-            if ctype != ptype:
-                typ = ptype
+            if ctype != ptype and index>0 :
                 word = text[pos:index]
+                typ = ptype
                 token = TokenwithType(pos, word, typ)
                 yield token
                 
                 pos = index
-            typ = ctype
             word = text[pos:index+1]
+            typ = ctype
             token = TokenwithType(pos, word, typ)
             
         yield token
@@ -149,7 +149,6 @@ if __name__ == '__main__':
     tokens = list(gen_type_words.gen_type_tokenize(text))
     for token in tokens:
         print(token.text, token.position, token.typ)
-    
     
 
 
