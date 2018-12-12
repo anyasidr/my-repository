@@ -121,8 +121,8 @@ class Tokenizer(object):
                 typ = ptype
                 token = TokenwithType(position, word, typ)
                 yield token
-                # definition of the last character
                 position = index
+            # definition of the last character
             word = text[position:index+1]
             typ = ctype
             token = TokenwithType(position, word, typ)
