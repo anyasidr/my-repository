@@ -121,7 +121,8 @@ class Tokenizer(object):
                 yield token
                 position = index
             # definition of the last character
-            word = text[position:index+1]
+            self._type(character) == self._type(text[index-1])
+            word = text[position:index]
             token = TokenwithType(position, word, self._type(character))
         yield token
         
