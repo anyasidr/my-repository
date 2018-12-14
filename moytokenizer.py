@@ -113,8 +113,6 @@ class Tokenizer(object):
         
         position = 0
         for index, character in enumerate(text):
-            # definiton of the current type
-            ctype = self._type(character)
             # check if the type of the current character is
             # different from the type of the previous character
             if index>0 and self._type(character) != self._type(text[index-1]):
