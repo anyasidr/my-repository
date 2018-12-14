@@ -116,7 +116,7 @@ class Tokenizer(object):
             # check if the type of the current character is
             # different from the type of the previous character
             if index>0 and self._type(character) != self._type(text[index-1]):
-                word = text[pos:index]
+                word = text[position:index]
                 token = TokenwithType(position, word, self._type(text[index-1]))
                 yield token
                 position = index
