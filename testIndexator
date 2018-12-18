@@ -3,55 +3,54 @@ import tokenizer
 import os
 import shelve
 import indexator
-from indexator import Indexator, Position
 
 
 class TestIndexator(unittest.TestCase):
     def setUp(self):
         self.indexator = Indexator('database')
         
-    def test_indextie_input_digit(self):
-        with self.assertRaises(TypeError):
+    def test_input_digit(self):
+        with self.assertRaises(ValueError):
             self.Indexator.indextie(1234)
 
-    def test_indextie_input_none(self):
-        with self.assertRaises(TypeError):
+    def test_input_none(self):
+        with self.assertRaises(ValueError):
             self.Indexator.indextie()
 
-    def test_indextie_input_nonexistent(self):
+    def test_input_nonexistent(self):
         with self.assertRaises(FileNotFoundError):
             self.Indexator.indextie("abracadabra.txt")
 
-    def test_indexing_one_word(self):      
+    def test_one_word(self):      
         file = open('test.txt', 'w')
         file.write('indexator')
         file.close()        
         self.Indexator.indextie('test.txt')        
-        this_dict = dict(shelve.open('database'))
+        data_dict = dict(shelve.open('database'))
         dictionary = {'indexator': {'test.txt': Position(0, 9)}}
-        self.assertEqual(this_dict, dictionary)
+        self.assertEqual(data_dict, dictionary)
 
-    def test_indexing_same_words(self):      
+    def test_same_words(self):      
         file = open('test.txt', 'w')
         file.write('well well well')
         file.close()        
         self.Indexator.indextie('test.txt')        
-        this_dict = dict(shelve.open('database'))
-        dictionary = {'well': {'test.txt': Position(0, 4), Position(5, 9), Position(10, 14)}}
-        self.assertEqual(this_dict, dictionary)
+        data_dict = dict(shelve.open('database'))
+        dictionary = {'well': {'test.txt': (Position(0, 4), Position(5, 9), Position(10, 14))}}
+        self.assertEqual(data_dict, dictionary)
         
-    def test_indexing_many_words(self):      
+    def test_many_words(self):      
         file = open('test.txt', 'w')
         file.write('testing my indexator')
         file.close()        
         self.Indexator.indextie('test.txt')        
-        this_dict = dict(shelve.open('database'))
+        data_dict = dict(shelve.open('database'))
         dictionary = {'testing': {'test.txt': Position(0, 8)},
                       'my': {'test.txt': Position(9, 11)},
                       'indexator': {'test.txt': Position(12, 21)}}
-        self.assertEqual(my_dict, dictionary) 
+        self.assertEqual(data_dict, dictionary) 
 
-    def test_indexing_two_files(self):      
+    def test_two_files(self):      
         file1 = open('test1.txt', 'w')
         file1.write('file number one')
         file1.close()        
@@ -60,12 +59,12 @@ class TestIndexator(unittest.TestCase):
         test2.write('file number two')
         test2.close()  
         self.Indexator.indextie('test2.txt')
-        this_dict = dict(shelve.open('database'))
+        data_dict = dict(shelve.open('database'))
         dictionary = {'file': {'test1.txt': Position(0, 4), 'test2.txt': Position(0, 4)},
                       'number': {'test1.txt': [Position(5, 11)]}, 'test2.txt': Position(5, 11)},
                       'one': {'test1.txt': [Position(12, 15)]}, 
                       'two': {'test2.txt': [Position(12, 15)]}}
-        self.assertEqual(this_dict, dictionary)
+        self.assertEqual(data_dict, dictionary)
 
     def tearDown(self):
         myfiles = os.listdir(path = ".")
