@@ -35,8 +35,8 @@ class TokenwithType(Token):
         self.position = position
         self.text = text
         self.typ = typ
-        
 
+        
 class Tokenizer(object):
     """
     this class uses method tokenize to tokenize a string
@@ -81,18 +81,21 @@ class Tokenizer(object):
             yield token
 
     @staticmethod
-    def _type(c):
+    def Type(c):
         """
-        this method defines a type of each character
+        this method defines a type of the character
         """
         if c.isalpha():
-            typ = 'a'
+            typ='a'
+        
         elif c.isdigit():
-            typ = 'd'
+            typ= 'd'
+        
         elif c.isspace():
-            typ = 's'
+            typ='s'
+        
         elif unicodedata.category(c)[0] == 'P':
-            typ = 'p'
+            typ='p'
         else:
             typ = 'o'
         return typ
@@ -107,25 +110,34 @@ class Tokenizer(object):
         
         if not isinstance(text, str):
             raise ValueError
-            
-        if not text:
+        
+        if text == "":
             return
         
-        position = 0
+        pos = 0
         for index, character in enumerate(text):
-            ctyp = self._type(character)
-            ptyp = self._type(text[index-1])
+            # definiton of the current type
+            ctype = self.Type(character)
+            # definition of the previous type
+            ptype = self.Type(text[index-1])
             # check if the type of the current character is
             # different from the type of the previous character
-            if index>0 and ctyp  != ptyp:
-                word = text[position:index]
-                token = TokenwithType(position, word, ptyp)
+            if ctype != ptype:
+                typ = ptype
+                word = text[pos:index]
+                token = TokenwithType(pos, word, typ)
                 yield token
-                position = index
-            # definition of the last character
-            word = text[position:index+1]
-            token = TokenwithType(position, word, ctyp)
+                pos = index
+            # looking for the last character
+            typ = ctype
+            word = text[pos:index+1]
+            token = TokenwithType(pos, word, typ)
         yield token
+
+    def for_index_tokenize(self, string):
+            for word in self.gen_type_tokenize(text):
+                if word.typ == 'a' or word.typ == 'd':
+                    yield word
         
 
 if __name__ == '__main__':
@@ -141,6 +153,8 @@ if __name__ == '__main__':
     tokens = list(gen_type_words.gen_type_tokenize(text))
     for token in tokens:
         print(token.text, token.position, token.typ)
+    
+
     
 
 
