@@ -1,5 +1,5 @@
 import unittest
-import tokenizer
+import moytokenizer
 import os
 import shelve
 import indexator
