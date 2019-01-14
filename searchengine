@@ -19,22 +19,24 @@ class SearchEngine(object):
             raise TypeError
         if query == '':
             return {}
-        tokenize = Tokenizer()
-        words = list(tokenize.for_index_tokenize(query))
-        found = []
+        
+        tokenizer = Tokenizer()
+        words = list(tokenizer.for_index_tokenize(query))
+        results = []
         for word in words:
-            found.append(self.database[word.text])        
-        files = set(found[0])
-        for result in found:
+            results.append(self.search_one[word.text])        
+        files = set(results[0])
+        for result in results:
             files &= set(result)
         positions = {}
         for file in files:
-            for result in found:
+            for result in results:
                   positions.setdefault(file, []).extend(result[file])
         return positions
 
     def close(self):
         self.database.close()
+
     
         
 
