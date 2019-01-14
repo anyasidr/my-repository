@@ -37,12 +37,13 @@ class Indexator(object):
         self.database = shelve.open(db_name, writeback=True)
 
     def indextie(self, filename):
-        if not isinstance(path, str):
+        if not isinstance(filename, str):
             raise TypeError('Inappropriate type')
         text = open(filename)
         tokenizer = Tokenizer()
         for word in tokenizer.for_index_tokenize(text.read()):
-            self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position(word.position, (word.position + len(word.text))))
+            self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position(word.position,
+            (word.position + len(word.text))))
         text.close()
         self.database.sync()
         
@@ -53,13 +54,12 @@ class Indexator(object):
         tokenizer = Tokenizer()
         for number, line in enumerate(text):
             for word in tokenizer.for_index_tokenize(line):
-                self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position_with_lines(word.position, (word.position + len(word.text)), number))
+                self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position_with_lines
+                (word.position, (word.position + len(word.text)), number))
         text.close()
         self.database.sync()
         
     def close(self):
-        """Close database after indexing is done
-        """
         self.database.close()
 
 def main():
