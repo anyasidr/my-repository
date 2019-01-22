@@ -1,5 +1,6 @@
 import unittest
 from moytokenizer import Tokenizer
+from search_engine import SearchEngine
 
 class Test(unittest.TestCase):
     def setUp(self):
@@ -146,6 +147,48 @@ class Test(unittest.TestCase):
         self.assertEqual(sequence[6].text, '+')
         self.assertEqual(sequence[6].position, 10)
         self.assertEqual(sequence[6].typ, "o")
+        
+
+class TestSearchEngine(unittest.TestCase):
+  
+    test1 = "this is my test"
+    test2 = "well my test"
+    
+    def setUp(self):
+        index = indexator.Indexator('database')        
+        self.s = SearchEngine('database')
+
+    def test_empty(self):
+        result = self.s.search('')
+        self.assertEqual(result, {})
+
+    def test_search(self):
+        result = self.s.search('test')
+        self.assertEqual(result, {'test1.txt': [Position_with_lines(0, 4, 1)], 'test2.txt': [Position_with_lines(0, 4, 0)]})
+                                  
+
+    def test_search_more(self):
+        result = self.s.search('this is')
+        self.assertEqual(result, {})
+
+    def test_search_many_empty(self):
+        result = self.s.search_many('')
+        self.assertEqual(result, {})
+
+    def test_search_many(self):
+        result = self.s.search_many('this is')
+        self.assertEqual(result, {'test1.txt': [Position_with_lines(0, 4, 0), Position_with_lines(5, 7, 0)]})
+                                               
+
+    def tearDown(self):
+        del self.s
+        for filename in os.listdir(os.getcwd()):            
+            if filename == 'database' or filename.startswith('database.'):
+                os.remove(filename)        
+        if 'test1.txt' in os.listdir(os.getcwd()):
+            os.remove('test.txt')
+        if 'test2.txt' in os.listdir(os.getcwd()):
+            os.remove('tst.txt')
         
         
 if __name__ == '__main__':
