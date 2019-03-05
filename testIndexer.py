@@ -1,4 +1,3 @@
-
 import unittest
 import moytokenizer
 import os
