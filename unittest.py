@@ -147,7 +147,7 @@ class Test(unittest.TestCase):
         self.assertEqual(sequence[6].text, '+')
         self.assertEqual(sequence[6].position, 10)
         self.assertEqual(sequence[6].typ, "o")
-        
+
 
 class TestSearchEngine(unittest.TestCase):
   
@@ -164,7 +164,7 @@ class TestSearchEngine(unittest.TestCase):
 
     def test_search(self):
         result = self.s.search('test')
-        self.assertEqual(result, {'test1.txt': [Position_with_lines(0, 4, 1)], 'test2.txt': [Position_with_lines(0, 4, 0)]})
+        self.assertEqual(result, {'test1.txt': [Position_with_lines(11, 15, 0)], 'test2.txt': [Position_with_lines(18, 12, 0)]})
                                   
 
     def test_search_more(self):
@@ -189,6 +189,10 @@ class TestSearchEngine(unittest.TestCase):
             os.remove('test.txt')
         if 'test2.txt' in os.listdir(os.getcwd()):
             os.remove('tst.txt')
+        
+        
+if __name__ == '__main__':
+    unittest.main()
         
         
 if __name__ == '__main__':
