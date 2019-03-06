@@ -39,23 +39,23 @@ class SearchEngine(object):
 
 def main():    
     index = indexer.Indexator('db')    
-    t = open('tst.txt', 'w')
+    t = open('test.txt', 'w')
     t.write(' this is testing\nthis is testing\nthis is testing')
     t.close()
-    d = open('tgt.txt', 'w')
+    d = open('tst.txt', 'w')
     d.write(' is\n testing  ')
     d.close()
+    index.indextie_with_lines('test.txt')
     index.indextie_with_lines('tst.txt')
-    index.indextie_with_lines('tgt.txt')
     del index
     engine = SearchEngine('db')
     result = engine.search_many('this testing ')
     print(result)
     del engine
-    if 'tgt.txt' in os.listdir(os.getcwd()):
-        os.remove('tgt.txt')
     if 'tst.txt' in os.listdir(os.getcwd()):
         os.remove('tst.txt')
+    if 'test.txt' in os.listdir(os.getcwd()):
+        os.remove('test.txt')
     for filename in os.listdir(os.getcwd()):            
         if filename == 'db' or filename.startswith('db.'):
             os.remove(filename) 
