@@ -36,7 +36,9 @@ class TestIndexator(unittest.TestCase):
         file.close()        
         self.indexator.indextie('test.txt')        
         data_dict = dict(shelve.open('database'))
-        dictionary = {'well': {'test.txt': [(Position(0, 4), Position(6, 10), Position(12, 16))]}}
+        dictionary = {
+            'well': {
+                'test.txt': [(Position(0, 4), Position(6, 10), Position(12, 16))]}}
         self.assertEqual(data_dict, dictionary)
         
     def test_many_words(self):      
@@ -45,7 +47,15 @@ class TestIndexator(unittest.TestCase):
         file.close()        
         self.indexator.indextie('test.txt')        
         data_dict = dict(shelve.open('database'))
-        dictionary = {'testing': {'test.txt': [Position(0, 7)]},'my': {'test.txt': [Position(8, 10)]},'indexator': {'test.txt': [Position(11, 20)]}}
+        dictionary = {
+            'testing': {
+                'test.txt': [Position(0, 7)]
+            },
+            'my': {
+                'test.txt': [Position(8, 10)]
+            },
+            'indexator': {
+                'test.txt': [Position(11, 20)]}}
         self.assertEqual(data_dict, dictionary) 
 
     def test_two_files(self):      
