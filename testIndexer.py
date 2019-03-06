@@ -75,7 +75,7 @@ class TestIndexator(unittest.TestCase):
             },
             'number': {
                 'test1.txt': [Position(5, 11)],
-                'test2.txt': Position(5, 11)
+                'test2.txt': [Position(5, 11)]
             },
             'one': {
                 'test1.txt': [Position(12, 15)]
