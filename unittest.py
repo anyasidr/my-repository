@@ -149,42 +149,98 @@ class Test(unittest.TestCase):
         self.assertEqual(sequence[6].typ, "o")
 
 
-class TestSearchEngine(unittest.TestCase):
-  
-    test1 = "this is my test"
-    test2 = "well my test"
-    
+import unittest
+import os
+import shelve
+from indexer import Indexator, Position, Position_with_lines
+
+class IndexerTest(unittest.TestCase):
     def setUp(self):
-        index = indexator.Indexator('database')        
-        self.s = SearchEngine('database')
-
-    def test_empty(self):
-        result = self.s.search('')
-        self.assertEqual(result, {})
-
-    def test_search(self):
-        result = self.s.search('test')
-        self.assertEqual(result, {'test1.txt': [Position_with_lines(11, 15, 0)], 'test2.txt': [Position_with_lines(18, 12, 0)]})
-                                  
-
-    def test_search_more(self):
-        result = self.s.search('this is')
-        self.assertEqual(result, {})
-
-    def test_search_many_empty(self):
-        result = self.s.search_many('')
-        self.assertEqual(result, {})
-
-    def test_search_many(self):
-        result = self.s.search_many('this is')
-        self.assertEqual(result, {'test1.txt': [Position_with_lines(0, 4, 0), Position_with_lines(5, 7, 0)]})
-                                               
+        self.indexer = Indexator("database")
 
     def tearDown(self):
-        del self.s
-        for filename in os.listdir(os.getcwd()):            
-            if filename == 'database' or filename.startswith('database.'):
-                os.remove(filename)        
+        del self.indexer
+        for filename in os.listdir(os.getcwd()):
+            if (filename == "database" or filename.startswith("database.")):
+                os.remove(filename)
+            if "text.txt" in os.listdir(os.getcwd()):
+                os.remove("text.txt")
+
+    def test_wrong_input(self):
+        with self.assertRaises(FileNotFoundError):
+            self.indexer.indextie("i am not a document")
+
+    def test_error_wrong_input_wrong_path(self):
+        with self.assertRaises(FileNotFoundError): 
+            self.indexer.indextie("текст.txt")
+            
+    def test_one_word(self):
+        test = open("text.txt", 'w' )
+        test.write("programming")
+        test.close()
+        self.indexer.indextie("text.txt")
+        words1 = dict(shelve.open("database"))
+        words2 = {
+            "programming":{"text.txt": [Position(0, 10)]
+        }}
+        self.assertEqual(words1, words2)
+
+    def test_two_words(self):
+        test = open("text.txt", 'w' )
+        test.write("my test")
+        test.close()
+        self.indexer.indextie("text.txt")
+        words1 = dict(shelve.open("database"))
+        words2 = {
+            "my":{"text.txt": [Position(0, 2)]},
+            "test":{"text.txt": [Position(3, 7)]
+        }}
+        self.assertEqual(words1, words2)
+
+    def test_two_identical_words(self):
+        test = open("text.txt", 'w' )
+        test.write("my my")
+        test.close()
+        self.indexer.indextie("text.txt")
+        words1 = dict(shelve.open("database"))
+        words2 = {
+            "my":{"text.txt": [Position(0, 2),
+                               Position(3, 5)]
+        }}
+        self.assertEqual(words1, words2)
+                  
+    def test_two_files(self):
+        test = open("text.txt", 'w' )
+        test.write("test")
+        test.close()
+        test = open("text1.txt", 'w' )
+        test.write("my my")
+        test.close()
+        self.indexer.indextie("text.txt")
+        self.indexer = Indexator('database')
+        self.indexer.indextie("text1.txt")
+        words1 = dict(shelve.open("database"))
+        words2 = {
+            "my":{"text.txt": [Position(0, 2),
+                               Position(3, 5)]},
+            "test":{"text.txt": [Position(0, 4)]
+        }}
+        self.assertEqual(words1, words2)
+
+    def test_multiple_lines(self):
+        test = open("text.txt", 'w' )
+        test.write("testing\nground")
+        test.close()
+        self.indexer.indextie_with_lines("text.txt")
+        words1 = dict(shelve.open("database"))
+        words2 = {
+            "testing":{"text.txt": [Position(0, 7, 0)]},
+            "ground":{"text.txt": [Position(0, 6, 1)]
+        }}
+        self.assertEqual(words1, words2)
+
+if __name__ == '__main__':
+    unittest.main()
         
         
 if __name__ == '__main__':
