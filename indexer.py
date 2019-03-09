@@ -71,6 +71,7 @@ def main():
     for filename in os.listdir(os.getcwd()):
         if filename == 'database' or filename.startswith('database.'):
             os.remove(filename)
+    indexator.indextie_with_lines("tolstoy1.txt")
 
 
 if __name__=='__main__':
