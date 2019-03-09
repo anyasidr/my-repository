@@ -13,8 +13,8 @@ class Position(object):
 
     def __repr__(self):
         return '(' + str(self.start) + ';' + ' ' + str(self.end) + ')'
-    
-    
+
+
 class Position_with_lines(object):
     def __init__(self, start, end, line):
         self.start = start
@@ -28,7 +28,7 @@ class Position_with_lines(object):
     def __repr__(self):
         return '(' + str(self.start) + ',' + ' ' + str(self.end) + ',' + str(self.line) + ')'
 
-     
+
 class Indexator(object):
     def __init__(self, db_name):
         self.database = shelve.open(db_name, writeback=True)
@@ -42,8 +42,8 @@ class Indexator(object):
             self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position(word.position,
             (word.position + len(word.text))))
         text.close()
-        self.database.sync()
-        
+        self.database.close()
+
     def indextie_with_lines(self, filename):
         if not isinstance(filename, str):
             raise TypeError('Inappropriate type')
@@ -54,8 +54,8 @@ class Indexator(object):
                 self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position_with_lines
                 (word.position, (word.position + len(word.text)), number))
         text.close()
-        self.database.sync()
-        
+        self.database.close()
+
     def __del__(self):
         self.database.close()
 
@@ -71,13 +71,15 @@ def main():
     for filename in os.listdir(os.getcwd()):
         if filename == 'database' or filename.startswith('database.'):
             os.remove(filename)
+    indexator = Indexator('database')
     indexator.indextie_with_lines("tolstoy1.txt")
-    indexator.indextie_with_lines("tolstoy2.txt")
-    indexator.indextie_with_lines("tolstoy3.txt")
-    indexator.indextie_with_lines("tolstoy4.txt")
+    
+    #print(dict(indexator.database.get("Наташа", {})))
+    indexator.closeDatabase()
+#    indexator.indextie_with_lines("tolstoy2.txt")
+#    indexator.indextie_with_lines("tolstoy3.txt")
+#    indexator.indextie_with_lines("tolstoy4.txt")
 
 
 if __name__=='__main__':
     main()
-
-
