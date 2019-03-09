@@ -4,7 +4,6 @@ import os
 
 
 class Position(object):
-    
     def __init__(self, start, end):
         self.start = start
         self.end = end
@@ -17,7 +16,6 @@ class Position(object):
     
     
 class Position_with_lines(object):
-
     def __init__(self, start, end, line):
         self.start = start
         self.end = end
@@ -32,7 +30,6 @@ class Position_with_lines(object):
 
      
 class Indexator(object):
-
     def __init__(self, db_name):
         self.database = shelve.open(db_name, writeback=True)
 
