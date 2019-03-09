@@ -149,11 +149,6 @@ class Test(unittest.TestCase):
         self.assertEqual(sequence[6].typ, "o")
 
 
-import unittest
-import os
-import shelve
-from indexer import Indexator, Position, Position_with_lines
-
 class IndexerTest(unittest.TestCase):
     def setUp(self):
         self.indexer = Indexator("database")
@@ -241,11 +236,7 @@ class IndexerTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-        
-        
-if __name__ == '__main__':
-    unittest.main()
-        
+
 
             
 
