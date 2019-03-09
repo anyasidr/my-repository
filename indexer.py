@@ -72,6 +72,9 @@ def main():
         if filename == 'database' or filename.startswith('database.'):
             os.remove(filename)
     indexator.indextie_with_lines("tolstoy1.txt")
+    indexator.indextie_with_lines("tolstoy2.txt")
+    indexator.indextie_with_lines("tolstoy3.txt")
+    indexator.indextie_with_lines("tolstoy4.txt")
 
 
 if __name__=='__main__':
