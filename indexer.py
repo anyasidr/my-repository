@@ -45,6 +45,7 @@ class Indexator(object):
             self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position(word.position,
             (word.position + len(word.text))))
         text.close()
+        self.database.sync()
         
     def indextie_with_lines(self, filename):
         if not isinstance(filename, str):
@@ -56,14 +57,15 @@ class Indexator(object):
                 self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position_with_lines
                 (word.position, (word.position + len(word.text)), number))
         text.close()
+        self.database.sync()
         
-    def close(self):
+    def __del__(self):
         self.database.close()
 
 def main():
     indexator = Indexator('database')
     file = open('text.txt', 'w')
-    file.write('well, lets indextie this')
+    file.write('well well well')
     file.close()
     indexator.indextie_with_lines('text.txt')
     del indexator
@@ -76,3 +78,5 @@ def main():
 
 if __name__=='__main__':
     main()
+
+
