@@ -17,7 +17,6 @@ class TestSearchEngine(unittest.TestCase):
         if 'text1.txt' in os.listdir(os.getcwd()):
             os.remove('text1.txt')
 
-
     def test_two_words(self):
         test = open("text.txt", 'w' )
         test.write("my my")
