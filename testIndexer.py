@@ -2,24 +2,24 @@ import unittest
 import moytokenizer
 import os
 import shelve
-from indexator import Indexator, Position, Position_with_lines
+from indexer import Indexator, Position
 
 
 class TestIndexator(unittest.TestCase):
     def setUp(self):
         self.indexator = Indexator('database')
         
-    def test_input_digit(self):
-        with self.assertRaises(ValueError):
-            self.indexator.indextie(1234)
-
-    def test_input_none(self):
-        with self.assertRaises(ValueError):
-            self.indexator.indextie("lalala")
-
-    def test_input_nonexistent(self):
+    def test_digit(self):
+        with self.assertRaises(TypeError):
+            self.indexator.indextie(123456)
+            
+    def test_input(self):
         with self.assertRaises(FileNotFoundError):
-            self.indexator.indextie("abracadabra.txt")
+            self.indexator.indextie('lalala')
+            
+    def test_filename(self):
+        with self.assertRaises(FileNotFoundError):
+            self.indexator.indextie('lalala.txt')     
 
     def test_one_word(self):      
         file = open('test.txt', 'w')
@@ -28,17 +28,6 @@ class TestIndexator(unittest.TestCase):
         self.indexator.indextie('test.txt')        
         data_dict = dict(shelve.open('database'))
         dictionary = {'indexator': {'test.txt': [Position(0, 9)]}}
-        self.assertEqual(data_dict, dictionary)
-
-    def test_same_words(self):      
-        file = open('test.txt', 'w')
-        file.write('well well well')
-        file.close()        
-        self.indexator.indextie('test.txt')        
-        data_dict = dict(shelve.open('database'))
-        dictionary = {
-            'well': {
-                'test.txt': [(Position(0, 4), Position(6, 10), Position(12, 16))]}}
         self.assertEqual(data_dict, dictionary)
         
     def test_many_words(self):      
@@ -84,16 +73,17 @@ class TestIndexator(unittest.TestCase):
                 'test2.txt': [Position(12, 15)]}}
         self.assertEqual(data_dict, dictionary)
 
-    
     def tearDown(self):
         del self.indexator
-        myfiles = os.listdir(path = ".")
-        for file in myfiles:            
-            if file == 'database':
-                os.remove(file)
-            if file.startswith('database.'):
-                os.remove(file)
-
+        for filename in os.listdir(os.getcwd()):            
+            if filename == 'database' or filename.startswith('database.'):
+                os.remove(filename)        
+        if 'test.txt' in os.listdir(os.getcwd()):
+            os.remove('test.txt')
+        if 'test1.txt' in os.listdir(os.getcwd()):
+            os.remove('test1.txt')
+        if 'test2.txt' in os.listdir(os.getcwd()):
+            os.remove('test2.txt')
 
 
 if __name__=='__main__':
