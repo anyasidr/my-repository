@@ -71,14 +71,6 @@ def main():
     for filename in os.listdir(os.getcwd()):
         if filename == 'database' or filename.startswith('database.'):
             os.remove(filename)
-    indexator = Indexator('database')
-    indexator.indextie_with_lines("tolstoy1.txt")
-    
-    #print(dict(indexator.database.get("Наташа", {})))
-    indexator.closeDatabase()
-#    indexator.indextie_with_lines("tolstoy2.txt")
-#    indexator.indextie_with_lines("tolstoy3.txt")
-#    indexator.indextie_with_lines("tolstoy4.txt")
 
 
 if __name__=='__main__':
