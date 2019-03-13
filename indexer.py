@@ -95,7 +95,6 @@ class Indexator(object):
             self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position(word.position,
             (word.position + len(word.text))))
         text.close()
-        self.database.close()
 
     def indextie_with_lines(self, filename):
         """
@@ -113,7 +112,6 @@ class Indexator(object):
                 self.database.setdefault(word.text, {}).setdefault(filename, []).append(Position_with_lines
                 (word.position, (word.position + len(word.text)), number))
         text.close()
-        self.database.close()
 
     def __del__(self):
         """
