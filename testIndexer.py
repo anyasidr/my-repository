@@ -54,8 +54,7 @@ class TestIndexator(unittest.TestCase):
         self.indexator.indextie('test1.txt')        
         test2 = open('test2.txt', 'w')
         test2.write('file number two')
-        test2.close()
-        self.indexator = Indexator('database')  
+        test2.close() 
         self.indexator.indextie('test2.txt')
         data_dict = dict(shelve.open('database'))
         dictionary = {
