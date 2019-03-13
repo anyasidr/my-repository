@@ -5,16 +5,34 @@ from moytokenizer import Tokenizer
 
 
 class SearchEngine(object):
+    """
+    This class is used for searching of
+    positions of tokens in a given database.
+    """
     
     def __init__(self, dbname):
+        """
+        This method creates an example of 
+        class SearchEngine.
+        """
         self.database = shelve.open(dbname, writeback=True)
 
     def search_one(query, str):
+        """
+        This method searches in a database. The method uses
+        a key that is a tokens, returns all the positions
+        of the token.
+        """
         if not isinstance(query, str):
             raise TypeError
         return self.database.get(query, {})
 
     def search_many(self, query):
+        """
+        This method uses tokenization. The method searches in a database, 
+        finds tokens in a tokenized string. Returns a dictionary where
+        the tokens are keys with their positions in all given files.
+        """
         if not isinstance(query, str):
             raise TypeError
         if query == '':
@@ -35,6 +53,9 @@ class SearchEngine(object):
         return positions
 
     def close(self):
+        """
+        methos closes database.
+        """
         self.database.close()
 
 def main():    
