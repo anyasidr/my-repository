@@ -13,8 +13,8 @@ class TestSearchEngine(unittest.TestCase):
         file2 = open('test2.txt', 'w')
         file2.write('test')
         file2.close()        
-        index.indexing_with_lines('test1.txt')
-        index.indexing_with_lines('test2.txt')
+        index.indextie_with_lines('test1.txt')
+        index.indexitie_with_lines('test2.txt')
         del index
         self.s = SearchEngine('database')
 
