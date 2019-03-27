@@ -38,15 +38,15 @@ class SearchEngine(object):
         if query == '':
             return {}
         
-        tokenizer = Tokenizer()
+        tokenizer = Tokenizer() # using tokenizer for extracting tokens
         words = list(tokenizer.for_index_tokenize(query))
-        results = []
+        results = [] # creating a tuple
         for word in words:
-            results.append(self.database[word.text])        
-        files = set(results[0])
+            results.append(self.database[word.text])   
+        files = set(results[0]) # converting tuple into set
         for result in results:
-            files &= set(result)
-        positions = {}
+            files &= set(result) # intersecting sets of documents
+        positions = {} # creating a dictionary with positions
         for file in files:
             for result in results:
                   positions.setdefault(file, []).extend(result[file])
