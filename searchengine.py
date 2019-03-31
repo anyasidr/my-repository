@@ -67,7 +67,6 @@ def main():
     file2.write('my test')
     file2.close()
     i.indextie_with_lines('test1.txt')
-    i = indexer.Indexator('db_name')
     i.indextie_with_lines('test2.txt')
     del i
     search_engine = SearchEngine('db_name')
