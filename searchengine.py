@@ -59,17 +59,17 @@ class SearchEngine(object):
         self.database.close()
 
 def main():    
-    index = indexer.Indexator('db_name')    
+    i = indexer.Indexator('db_name')    
     file1 = open('test1.txt', 'w')
     file1.write('this is my test')
     file1.close()
     file2 = open('test2.txt', 'w')
     file2.write('my test')
     file2.close()
-    index.indextie_with_lines('test1.txt')
-    index = indexer.Indexator('db_name')
-    index.indextie_with_lines('test2.txt')
-    del index
+    i.indextie_with_lines('test1.txt')
+    i = indexer.Indexator('db_name')
+    i.indextie_with_lines('test2.txt')
+    del i
     search_engine = SearchEngine('db_name')
     result = search_engine.search_many('my test')
     print(result)
