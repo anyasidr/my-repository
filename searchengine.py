@@ -59,28 +59,29 @@ class SearchEngine(object):
         self.database.close()
 
 def main():    
-    index = indexer.Indexator('db')    
-    t = open('test.txt', 'w')
-    t.write(' this is testing\nthis is testing\nthis is testing')
-    t.close()
-    d = open('tst.txt', 'w')
-    d.write(' is\n testing  ')
-    d.close()
-    index.indextie_with_lines('test.txt')
-    index = indexer.Indexator('db')
-    index.indextie_with_lines('tst.txt')
+    index = indexer.Indexator('db_name')    
+    file1 = open('test1.txt', 'w')
+    file1.write('this is my test')
+    file1.close()
+    file2 = open('test2.txt', 'w')
+    file2.write('my test')
+    file2.close()
+    index.indextie_with_lines('test1.txt')
+    index = indexer.Indexator('db_name')
+    index.indextie_with_lines('test2.txt')
     del index
-    engine = SearchEngine('db')
-    result = engine.search_many('this testing ')
+    search_engine = SearchEngine('db_name')
+    result = search_engine.search_many('my test')
     print(result)
-    del engine
-    if 'tst.txt' in os.listdir(os.getcwd()):
-        os.remove('tst.txt')
-    if 'test.txt' in os.listdir(os.getcwd()):
-        os.remove('test.txt')
+    del search_engine
+    if 'test1.txt' in os.listdir(os.getcwd()):
+        os.remove('test1.txt')
+    if 'test2.txt' in os.listdir(os.getcwd()):
+        os.remove('test2.txt')
     for filename in os.listdir(os.getcwd()):            
-        if filename == 'db' or filename.startswith('db.'):
+        if filename == 'db_name' or filename.startswith('db_name.'):
             os.remove(filename) 
 
+            
 if __name__=='__main__':
     main()
