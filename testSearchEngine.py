@@ -7,15 +7,15 @@ from searchengine import SearchEngine
 
 class TestSearchEngine(unittest.TestCase):
     def setUp(self):
-        indextie = indexer.Indexator('db_name')        
+        i = indexer.Indexator('db_name')        
         test1 = open('test1.txt', 'w')
         test1.write('this is my test')
         test1.close()
         test2 = open('test2.txt', 'w')
         test2.write('my test')
         test2.close()        
-        indextie.indextie_with_lines('test1.txt')
-        indextie.indextie_with_lines('test2.txt')
+        i.indextie_with_lines('test1.txt')
+        i.indextie_with_lines('test2.txt')
         del index
         self.engine = SearchEngine('db_name')
 
