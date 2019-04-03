@@ -30,7 +30,7 @@ class TestSearchEngine(unittest.TestCase):
 
     def test_search_two(self):
         result = self.engine.search('this is')
-        self.assertEqual(result, {'test1.txt': [Position_with_lines((0, 4,0), (5, 7,0))]})
+        self.assertEqual(result, {'test1.txt': [Position_with_lines((0, 4, 0), (5, 7, 0))]})
 
     def test_search_many_one(self):
         result = self.engine.search_many('test')
