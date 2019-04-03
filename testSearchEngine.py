@@ -16,7 +16,7 @@ class TestSearchEngine(unittest.TestCase):
         test2.close()        
         i.indextie_with_lines('test1.txt')
         i.indextie_with_lines('test2.txt')
-        del index
+        del i
         self.engine = SearchEngine('db_name')
 
     def test_empty(self):
