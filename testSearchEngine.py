@@ -52,45 +52,19 @@ class TestContextWindow(unittest.TestCase):
             os.remove('test2.txt')
 
 
-class TestWindows(unittest.TestCase):
-
-    def setUp(self):
-        self.search_engine = SearchEngine("db_name")
-        self.search_engine.database.update(database)
-        with open("test1.txt", 'w') as file:
-            file.write(test1)
-
-    def test_empty2(self):
-        result = self.search_engine.get_window({}, 2)
-        self.assertEqual(result, {})
-
-    def test_to_sentence(self):
-        query = "this my"
-        result = self.search_engine.search_to_sentence(query)
-        result2 = {'test1.txt': [SearchEngine([Position_with_lines(0, 4, 0),
-                                        Position_with_lines(8, 10, 0)],
-                                       test1, 0, 15)]}
-        self.assertEqual(result, result2)
 
 class TestSearchEngine(unittest.TestCase):
     def setUp(self):
-        i = Indexator('db_name')        
-        test1 = open('test1.txt', 'w')
-        test1.write('this is my test')
-        test1.close()
-        test2 = open('test2.txt', 'w')
-        test2.write('my test')
-        test2.close()        
-        i.indextie_with_lines('test1.txt')
-        i.indextie_with_lines('test2.txt')
-        del i
         self.engine = SearchEngine('db_name')
+        self.engine.database.update(database)
+        with open("test1.txt", 'w') as file:
+            file.write(test1)
+        with open("test2.txt", 'w') as file:
+            file.write(test2)
 
     def test_empty(self):
         result = self.engine.search_one('')
         self.assertEqual(result, {})
-
-    
 
     def test_search_one(self):
         result = self.engine.search_one('test')
@@ -109,6 +83,27 @@ class TestSearchEngine(unittest.TestCase):
                                   'test2.txt': [Position_with_lines(0, 2, 0),
                                                Position_with_lines(3, 7, 0)]})
 
+    def test_empty2(self):
+        result = self.engine.get_window({}, 2)
+        self.assertEqual(result, {})
+
+    def test_join(self):
+        query1 = ContextWindow.load_from_file('test1.txt', Position_with_lines(5, 7, 0), 1)
+        query2 = ContextWindow.load_from_file('test1.txt', Position_with_lines(11, 15, 0), 1)
+        result = query1.join_context(query2)
+        self.wnd = ContextWindow('this is my test', [Position_with_lines(5, 7, 0), Position_with_lines(11, 15, 0)], 0, 15)
+        self.assertEqual(query1.start, self.wnd.start)
+        self.assertEqual(query1.end, self.wnd.end)
+        self.assertEqual(query1.line, self.wnd.line)
+        os.remove('test1.txt')
+
+    def test_highlight(self):
+        query = ContextWindow.load_from_file('test1.txt', Position_with_lines(5, 7, 0), 1)
+        result = query.highlight()
+        text = 'this <strong>is</strong> my'
+        self.assertEqual(result, text)
+
+
     def tearDown(self):
         del self.engine
         for filename in os.listdir(os.getcwd()):
@@ -122,6 +117,7 @@ class TestSearchEngine(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
 
