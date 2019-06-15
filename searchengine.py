@@ -29,7 +29,7 @@ class ContextWindow(object):
         @param position: position of the searching word in context window
         @param size: size of the context window
         """
-        tok = Tokenizer()
+        t = Tokenizer()
         if not (isinstance(filename, str)
                 and isinstance(position, Position_with_lines)
                 and isinstance(size, int)):
@@ -46,11 +46,11 @@ class ContextWindow(object):
         right = line[position.start:]
         left = line[:position.end][::-1]
         
-        for i, token in enumerate(tok.for_index_tokenize(left)):
+        for i, token in enumerate(t.for_index_tokenize(left)):
             if i == size:
                 break
         start = position.end - token.position - len(token.text)
-        for i, token in enumerate(tok.for_index_tokenize(right)):
+        for i, token in enumerate(t.for_index_tokenize(right)):
             if i == size:
                 break
         end = position.start + token.position + len(token.text)
@@ -144,14 +144,14 @@ class SearchEngine(object):
         # print(dict(self.database))
         self.tokenizer = Tokenizer()
 
-    def search_one(query, str):
+    def search_one(self, query):
         """
         This method searches in a database. The method uses
         a key that is a tokens, returns all the positions
         of the token.
         """
         if not isinstance(query, str):
-            raise TypeError
+            raise ValueError
         return self.database.get(query, {})
 
     def search_many(self, query):
@@ -161,7 +161,7 @@ class SearchEngine(object):
         the tokens are keys with their positions in all given files.
         """
         if not isinstance(query, str):
-            raise TypeError
+            raise ValueError
         if query == '':
             return {}
         
@@ -179,7 +179,7 @@ class SearchEngine(object):
                   positions.setdefault(file, []).extend(result[file])
         return positions
 
-    def get_context_windows(self, in_dict, size=3):
+    def get_window(self, in_dict, size=3):
         """
         Сreate dictionary of files and context windows
         """
@@ -194,10 +194,10 @@ class SearchEngine(object):
                 context = ContextWindow.load_from_file(f, position, size)
                 contexts_dict.setdefault(f, []).append(context)
 
-        joined_contexts_dict = self.join_context_windows(contexts_dict)
+        joined_contexts_dict = self.join_windows(contexts_dict)
         return joined_contexts_dict
 
-    def join_context_windows(self, in_dict):
+    def join_windows(self, in_dict):
         """
         Join cross windows in a dictionary of files
 
@@ -218,23 +218,23 @@ class SearchEngine(object):
 
         return contexts_dict
 
-    def search_to_context_window(self, query, size=3):
+    def search_to_window(self, query, size=3):
         """
         Search query words in database
         """
         positions_dict = self.search_many(query)
-        context_dict = self.get_context_windows(positions_dict, size)
+        context_dict = self.get_window(positions_dict, size)
         return context_dict
 
     def search_to_sentence(self, query, size=3):
         """
         Search multiword query in database
         """
-        context_dict = self.search_to_context_window(query, size)
+        context_dict = self.search_to_window(query, size)
         for contexts in context_dict.values():
             for context in contexts:
                 context.expand_context()
-        sentence_dict = self.join_context_windows(context_dict)
+        sentence_dict = self.join_windows(context_dict)
         return sentence_dict
 
     def search_to_highlight(self, query, size=3):
@@ -256,7 +256,7 @@ class SearchEngine(object):
         self.database.close()
 
 def main():    
-    '''i = indexer.Indexator('db_name')    
+    i = indexer.Indexator('db_name')    
     file1 = open('test1.txt', 'w')
     file1.write('Да, это пустые слова, здесь нет ничего полезного. привет как твои дела ? у меня все хорошо, я хочу домой приди ко мне! но ты же не свободна?')
     file1.close()
@@ -273,14 +273,14 @@ def main():
     r = search_engine.search_to_highlight('привет', 4)
     print(r)
 
-    i = indexer.Indexator('warandpeace')
-    i.indextie_with_lines('warandpeace.txt')
-    del i'''
-    search_engine = SearchEngine('warandpeace')
-    r = search_engine.search_to_highlight('подошла', 4)
+    """i = indexer.Indexator('tolstoy')
+    i.indextie_with_lines('tolstoy1.txt')
+    del i
+    search_engine = SearchEngine('tolstoy')
+    r = search_engine.search_to_highlight('Анна', 4)
     for key in r.keys():
         for val in r[key]:
-            print (val)
+            print (val)"""
 
 
     del search_engine
