@@ -9,13 +9,16 @@ from indexer import Position_with_lines
 class ContextWindow(object):
     """
     This class is used to store context windows data
-
-    position: list of positions of words for context window
-    line: string that contains the word for context
-    start: position of the first character of the context window
-    end: position after the last character of the context window
     """
     def __init__(self, line, position, start, end):
+        """
+        method creates an instance of ContextWindow class
+        params:
+        position: list of positions of words for context window
+        line: string that contains the word for context
+        start: position of the first character of the context window
+        end: position after the last character of the context window
+        """
         self.line = line
         self.position = position
         self.start = start
@@ -24,8 +27,7 @@ class ContextWindow(object):
     @classmethod
     def find_window(cls, filename, position, size):
         """
-        Creates an instance of class ContextWindow from file.
-
+        method creates an instance of class ContextWindow loading from file
         @param filename: path to the file with the word
         @param position: position of the searching word in context window
         @param size: size of the context window
@@ -35,7 +37,7 @@ class ContextWindow(object):
                 and isinstance(position, Position_with_lines)
                 and isinstance(size, int)):
             raise ValueError (filename, position, size)"""
-
+        
         with open(filename) as f:
             for i, line in enumerate(f):
                 if i == position.line:
