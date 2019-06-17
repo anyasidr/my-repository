@@ -53,7 +53,7 @@ class WebServer(BaseHTTPRequestHandler):
             body = str(self.rfile.read(content_length))
             query = unquote(body.split('=')[1][:-1])
 
-            search_engine = SearchEngine('warandpeace')
+            search_engine = SearchEngine('tolstoy1')
             r = search_engine.search_to_highlight(query, 4)
 
             myresp = '<ol>\n'
@@ -74,7 +74,7 @@ class WebServer(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes((resp + data.format ('','Not Found')), "utf-8"))
 
-# Start HTTP server on global IP and 80 port
+
 ws = HTTPServer(('0.0.0.0', 80), WebServer)
 
 # Server running until Ctrl-C pressed
