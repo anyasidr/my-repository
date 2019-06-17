@@ -32,18 +32,13 @@ class ContextWindow(object):
         @param position: position of the searching word in context window
         @param size: size of the context window
         """
-        t = Tokenizer()
-        """if not (isinstance(filename, str)
-                and isinstance(position, Position_with_lines)
-                and isinstance(size, int)):
-            raise ValueError (filename, position, size)"""
-        
+        t = Tokenizer()        
         with open(filename) as f:
             for i, line in enumerate(f):
                 if i == position.line:
                     break
         if i != position.line:
-            raise ValueError('Wrong line number')
+            raise ValueError('Inappropriate number')
         line = line.strip("\n")
         positions = [position]        
         right = line[position.start:]
@@ -85,10 +80,8 @@ class ContextWindow(object):
         """
         Expand context window to sentence
         """
-
         first = re.compile(r'[.!?]\s[A-ZА-Яa-zа-я]')
         last = re.compile(r'[A-ZА-Яa-zа-я]\s[.!?]')
-
         right = self.line[self.end:]
         left = self.line[:self.start+1][::-1]    
         if left:
