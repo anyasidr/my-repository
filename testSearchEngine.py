@@ -71,7 +71,7 @@ class TestContextWindow(unittest.TestCase):
             os.remove('test2.txt')
 
 
-class TestSearchEngine(unittest.TestCase):
+class TestDB(unittest.TestCase):
     def make_db_test(self):
         with open("test1.txt", 'w') as file:
             file.write(test1)
