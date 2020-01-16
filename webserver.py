@@ -116,11 +116,11 @@ class WebServer(BaseHTTPRequestHandler):
             if re.match('doc.limit', key):
                 if (re.match('\D', query_data[key][0])) or (int(query_data[key][0]) < 0):
                     raise TypeError
-                limits.append(unquote(query_data[key][0]))
+                limits.append(query_data[key][0])
             if re.match('doc.offset', key):
                 if (re.match('\D', query_data[key][0])) or (int(query_data[key][0]) < 0):
                     raise TypeError
-                offsets.append(unquote(query_data[key][0]))
+                offsets.append(query_data[key][0])
         return query, limit, offset, limits, offsets, action, action_doc, action_exists
 
     def do_POST(self):
